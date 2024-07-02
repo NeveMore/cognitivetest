@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<!--
+	Written by Tonio Loewald (tonio AT loewald DOT com) for Brad Sagarin, Northern Illinois University
+-->
+<head>
+	<meta charset="utf-8" />
+	<title>Stroop Data Postprocessor</title>
+	<style>
+		body {
+			font-size: 12px;
+			font-family: Verdana, Sans-serif;
+		}
+		#version {
+			position: absolute;
+			top: 4px;
+			right: 4px;
+			color: #888;
+		}
+		table {
+			border-collapse: collapse;
+		}
+		tr:nth-child(2n+1) {
+			background-color: #eee;
+		}
+		th, td {
+			padding: 2px 4px;
+		}
+	</style>
+</head>
+<body>
+	<div id="version"></div>
+    <h2>Stoop Data Postprocessor</h2>
+    <h3>Raw Data</h3>
+    <button id="clear-data">Clear Data</button>
+    <textarea id="rawdata" style="width: 100%; height: 200px" placeholder="paste data here"></textarea>
+    <button id="process-data">Process Data</button> <label>Show Table <input type="checkbox" id="generate_table" /></label>
+    <h3>Processed Data</h3>
+    <div id="processed">
+        <textarea style="width: 100%; height: 200px" placeholder="tab delimited data will appear here"></textarea>
+        <div>
+        </div>
+    </div>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script>
+    	var version = "0.4";
+        function process_data (){
+            var rawdata = $('#rawdata').val();
+            
+            rawdata = '[' + rawdata.replace(/}\s*{/g, '},\n{') + ']';
+            
+            console.log( rawdata);
+            rawdata = JSON.parse(rawdata);
+            
+            console.log(rawdata);
+            
+            var rows = [];
+            rows.push([
+                // experiment info
+                'subject_name',
+                'timestamp',
+                'version',
+                'delay_before_stimulus',
+                'feedback',
+                'feedback_duration',
+                'id',
+                'number_of_sets',
+                'number_of_sets_conducted',
+                
+                // stimulus
+                'stimulus_color',
+                'stimulus_text',
+                
+                // responses
+                'response',
+                'correct',
+                'time'
+            ]);
+            $.each(rawdata, function(i, subject){
+                $.each(subject.results, function( j, result ){
+                    $.each(result.responses, function( seq, response ){
+                        rows.push( [
+                            subject['subject_name'],
+                            subject['timestamp'],
+                            subject['version'],
+                            subject['delay_before_stimulus'],
+                            subject['feedback'],
+                            subject['feedback_duration'],
+                            subject['id'],
+                            subject['number_of_sets'],
+                            subject['number_of_sets_conducted'],
+                            result['color'],
+                            result['text'],
+                            response['color'],
+                            response['correct'],
+                            response['time']
+                        ] );
+                    });
+                });
+            });
+            
+            var generate_table = $('#generate_table').is(':checked');
+            if( generate_table ){
+	            var table = $('<table>');
+            }
+            var text = '';
+            
+            $.each( rows, function( r, row ){
+            	if( generate_table ){
+	                var tr = $('<tr>');
+            	}
+                $.each( row, function( col, cell ){
+                	if(generate_table){
+	                    if( r === 0 ){
+	                        $('<th>').text(cell).appendTo(tr);
+	                    } else {
+	                        $('<td>').text(cell).appendTo(tr);
+	                    }
+                	}
+                    text += cell + "\t";
+                });
+                text += "\n";
+                if( generate_table ){
+	                tr.appendTo(table);
+                }
+            });
+            
+            $('#processed textarea').text(text);
+            if( generate_table ){
+	            $('#processed div').empty().append(table);
+            }
+        }
+        
+        $( function(){
+        	$('#version').text(version);
+            $('#process-data').on('click', process_data);
+            $('#clear-data').on('click', function(){
+            	$('#rawdata').val('');
+	            $('#processed textarea').val('');
+	            $('#processed div').empty();
+            })
+        } );
+    </script>
+</body>
+</html>

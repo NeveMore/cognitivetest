@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Testing Paper.js</title>
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+        <link rel="stylesheet" type="text/css" href="pvt-paper.css">
+        
+        <!-- jquery -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+        
+        <!-- paper.js -->
+        <script type="text/javascript" src="paper_js/docs/assets/js/paper.js"></script>
+        
+    </head>
+    <body>
+        <script type="text/paperscript" canvas='myCanvas'>
+            
+            //create rectangle
+            var testRect = new Rectangle(new Point (0,0), new Size(500,500));
+            var drawnRect = new Path.Rectangle(testRect);
+            drawnRect.fillColor = "black";
+            //testRect.moveTo(new paper.Point)
+            //paper.view.draw();
+            var hasBeenClicked = false;
+            var doingATHing = false;
+            
+            /* --------------------------------------------------------------------- */
+            
+            /* Set up variables for the test */
+            
+            var testActive = false; //whether test is running
+            var awaitingUser = false; //whether test is waiting on user to click
+            var startTime, finishTime; 
+            var testDuration = 30000; //max duration of test in ms
+            var waitDuration = 0; //timestamp for end of waiting period between tests
+            var timeGaps = []; //user delay in clicking
+            var startTimes = [];
+            var endTimes = [];
+            var avgGap=0; //average user delay in clicking
+            var rightNow = Date.now();
+            var timeDelay = 0; //current 
+            var minDelay = 1000; //minimum delay between tests
+            var maxDelay = 5000; //maximum delay between tests
+            
+            /* --------------------------------------------------------------------- */
+            
+            /*define helper functions for running the test*/
+            
+            function calcTestTimeDelay(minTime,maxTime){
+                return Math.floor(Math.random() * maxTime) + minTime;
+            }
+
+            function storeTimestamps(start,end){
+                startTimes.push(start);
+                endTimes.push(end);
+            }
+
+            function calcInterval(start, end){
+                return end - start;
+            }
+    
+            function storeInterval(start, end){
+                timeGaps.push(calcInterval(start,end));
+            }
+
+            function getFinishTime(timeLimit){
+                return Date.now() + timeLimit;
+            }
+            
+            /* --------------------------------------------------------------------- */
+            
+            /* define functions for changing rectangle color */
+
+            function setWaitIndicators(){
+                canvas = "myCanvas";
+                drawnRect.fillColor = "#aa0000";
+            }
+            
+            function setClickIndicators(){
+                canvas = "myCanvas";
+                drawnRect.fillColor = "#00ff00";
+            }
+            
+            function setCompleteIndicators(){
+                canvas = "myCanvas";
+                drawnRect.fillColor = "#00eeff";
+            }
+            
+            /* --------------------------------------------------------------------- */
+            
+            /* test async functions and promises (THESE DON'T WORK IN PAPER.JS BECAUSE IT USES ES5) */
+            
+            //function changeColorAfterNMilliseconds(n){
+            //    return new Promise(resolve => {
+            //        setTimeout(() => {
+            //            setClickIndicators();
+            //            resolve(n);
+            //        }, n);
+            //    });
+            //}
+            
+            //async function changeColor(){
+            //    changeColorAfterNMilliseconds(2000);
+            //}
+            
+            
+            /* --------------------------------------------------------------------- */
+            
+            /* set click event functionality */
+            drawnRect.onClick = function(event){
+                if (testActive === false){
+                    //start test
+                    setWaitIndicators();
+                    testActive = true;
+                    startPVT();
+                    //changeColor();
+                }
+                else{
+                    //test is running
+                    if (!awaitingUser){
+                        //let user know they clicked too soon
+                        //setClickIndicators();
+                        //awaitingUser = true;
+                        alert("you dun clicked too soon");
+                    }
+                    else{
+                        //store interval between delay and click
+                        var capturedClick = Date.now();
+                        storeTimestamps(waitDuration, capturedClick);
+                        storeInterval(waitDuration, capturedClick);
+                        //reset indicators and flag
+                        setWaitIndicators();
+                        awaitingUser = false;
+                        //set up next delay
+                        waitDelay();
+                    }
+                }
+                
+            }
+            
+            
+            /* --------------------------------------------------------------------- */
+            
+            /* set up the test */
+            
+            function startPVT(){
+                //clear existing data points
+                timeGaps.length = 0;
+                startTimes.length = 0;
+                endTimes.length = 0;
+    
+                //get startTime
+                startTime = Date.now();
+    
+                //get finishTime
+                finishTime = getFinishTime(testDuration);
+    
+                //call function to wait for first duration
+                waitDelay();
+            }
+            
+            function keepTesting(){
+                rightNow = Date.now();
+                //see if we already passed the finishTime
+                if (rightNow < finishTime){
+                    //calculate delay and see if we can keep testing
+                    timeDelay = calcTestTimeDelay(minDelay,maxDelay);
+                    waitDuration = rightNow + timeDelay;
+                    if ((waitDuration) < finishTime){
+                        return true;
+                    }
+                    //not enough time for testing, end testing
+                    return false;
+                }
+                else{
+                    //passed finishTime, end testing
+                    return false;
+                }
+            }
+            
+            function waitDelay(){
+
+                //see if test should be run
+                if (keepTesting()){
+                //find better way of doing this than do nothing loop
+                    while (Date.now() < waitDuration){
+                    //do nothing
+                    setWaitIndicators();
+                    }
+                setClickIndicators();
+                
+                awaitingUser = true;
+                
+                }
+                else{
+                    //handle ending
+                    endPVT();
+        
+                }
+            }
+
+            function endPVT(){
+                //end testing
+                testActive = false;
+                setCompleteIndicators();
+                alert("Testing complete! That test collected " + timeGaps.length + " timegaps");
+                var recordedTime = "";
+                for (var j = 0; j < timeGaps.length;j++){
+                    recordedTime += "" + timeGaps[j] + "ms, ";
+                }
+                alert(recordedTime);
+            }
+
+            
+        </script>
+        
+        
+        <canvas id="myCanvas" resize></canvas>
+        <!--
+        <script type="text/paperscript">
+            function changeColorAfterNMilliseconds(n){
+                return new Promise(resolve => {
+                    setTimeout(() => {
+                        setClickIndicators();
+                        resolve(n);
+                    }, n);
+                });
+            }
+            
+            async function changeColor(){
+                changeColorAfterNMilliseconds(2000);
+            }
+            
+            //changeColor();
+        </script>
+    -->
+        
+    </body>
+</html>

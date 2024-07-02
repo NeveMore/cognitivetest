@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en" manifest="stroop.manifest">
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"/>
+	<title>Stroop App</title>
+	<link rel="apple-touch-icon" href="icon.png"/>
+	<link rel="apple-touch-icon" sizes="114x114" href="icon@2x.png" />
+	<meta name="viewport" content="initial-scale=1.0">
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+	<style>
+    	@import url("stroop.css");
+	</style>
+</head>
+<body>
+    <div id="main">
+        <div id="control-panel">
+            <span class="version"></span>
+            <form onsubmit="return false;">
+                <table>
+                    <tr>
+                        <th colspan="2" style="text-align: center">
+                            <h2>Stroop Control Panel</h2>
+                        </th>
+                    </tr>
+                    <tr>
+                        <th>
+                            Subject Name
+                        </th>
+                        <td>
+                            <input type="text" name="subject_name" autocorrect="off" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            Feedback
+                        </th>
+                        <td>
+                            <select name="feedback" size="3">
+                                <option>
+                                    No Feedback
+                                </option>
+                                <option>
+                                    Feedback
+                                </option>
+                                <option>
+                                    Force Correct
+                                </option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            Number of Sets
+                        </th>
+                        <td>
+                            <input type="range" value="2" min="1" max="10"
+                                class="number_of_sets_field" /> 
+                            <input type="number"  name="number_of_sets" 
+                                class="number_of_sets_field" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            Feedback Duration
+                        </th>
+                        <td>
+                            <input type="number" value="1.0" step="0.1" name="feedback_duration" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            Delay Before Stimulus
+                        </th>
+                        <td>
+                            <input type="number" value="0.25" step="0.05" name="delay_before_stimulus" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan=2 style="text-align: center">
+                            <button id="run_trial">Run</button>
+                            <button id="show_data">Data</button>
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+        <div id="start" class="hidden">
+            <button class="start">Start</button>
+            <button class="exit">Exit</button>
+        </div>
+        <div id="end" class="hidden">
+            Thank You!
+            <button class="exit">Exit</button>
+        </div>
+        <div id="test" class="hidden">
+            <div id="stimulus">
+            </div>
+            <div id="feedback">
+            </div>
+            <div id="responses">
+                <button style="left: 0;">red</button>
+                <button style="left: 25%;">blue</button>
+                <button style="left: 50%;">green</button>
+                <button style="left: 75%;">yellow</button>
+            </div>
+            <button class="exit">Exit</button>
+        </div>
+        <div id="data" class="hidden">
+            <textarea></textarea>
+            <button class="exit">Exit</button>
+        </div>
+    </div>
+	<script src="jquery-1.9.1.min.js"></script>
+	<script src="stroop.js"></script>
+</body>
+</html>

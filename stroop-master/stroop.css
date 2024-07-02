@@ -1,0 +1,210 @@
+* {
+    padding: 0;
+    margin: 0;
+}
+@media only screen and (max-width: 480px) {
+    * {
+        font-size: 12px;
+    }
+}
+
+@media only screen and (min-width: 481px) and (max-width: 512px) {
+    * {
+        font-size: 14px;
+    }
+}
+
+@media only screen and (min-width: 513px) and (max-width: 767px) {
+    * {
+        font-size: 18px;
+    }
+}
+
+@media only screen and (min-width: 768px) {
+    * {
+        font-size: 24px;
+    }
+}
+
+body {
+    font-family: Helvetica Neue, Helvetica, Sans-Serif;
+    background-color: #ccc;
+    color: #444;
+}
+
+h2 {
+    font-size: 133%;
+}
+
+#main {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    right: 8px;
+    bottom: 8px;
+    background-color: #ddd;
+}
+
+form {
+    width: 100%;
+    text-align: center;
+}
+
+form > table {
+    display: inline-block;
+}
+
+form th {
+    text-align: right;
+    padding: 0.2em 0.4em 0.2em 0.2em;
+}
+
+form td {
+    text-align: left;
+    padding: 0.2em;
+}
+
+input, select, value {
+    padding: 0.2em;
+}
+
+button {
+    font-size: 133%;
+    padding: 0.4em 0.6em;
+}
+
+input {
+    width: 8em;
+}
+
+input[type=number] {
+    width: 3em;
+}
+
+input[type=range] {
+    width: 5em;
+}
+
+select {
+    width: 8em;
+}
+
+div {
+    border-radius: 6px;
+    position: absolute;
+    left: 0;
+    right: 0;
+    text-align: center;
+}
+
+.hidden {
+    display:none;
+}
+
+div#control-panel {
+    top: 1em;
+    left: 1em;
+    right: 1em;
+}
+
+#start, #end {
+    top: 50%;
+    margin-top: -1em;
+}
+
+@media only screen and (orientation:landscape) {
+    #stimulus {
+        background-color: #888;
+        font-size: 200%;
+        top: 2em;
+        left: 2em;
+        right: 55%;
+        padding: 1em;
+    }
+
+    #feedback {
+        font-size: 150%;
+        top: 8em;
+        left: 2em;
+        right: 55%;
+        color: black;
+    }
+
+    #responses {
+        left: 55%;
+        bottom: 2em;
+        right: 2em;
+    }
+
+    #responses button {
+        width: 100%;
+        text-align: center;
+        margin-top: 0.25em;
+        padding: 1em;
+    }
+}
+
+@media only screen and (orientation:portrait) {
+    #stimulus {
+        background-color: #888;
+        font-size: 200%;
+        top: 2em;
+        left: 2em;
+        right: 2em;
+        padding: 1em;
+    }
+
+    #feedback {
+        font-size: 150%;
+        bottom: 6em;
+        left: 2em;
+        right: 2em;
+        color: black;
+    }
+
+    #responses {
+        left: 10%;
+        bottom: 2em;
+        height: 3em;
+        right: 10%;
+    }
+
+    #responses button {
+        position: absolute; 
+        width: 24%; 
+        height: 100%;
+        text-align: center;
+    }
+}
+
+button {
+    width: 6em;
+    height: 2em;
+}
+
+.exit {
+    position: fixed;
+    top: 1em;
+    left: 1em;
+}
+
+#test, #data {
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+
+#data textarea {    
+    font-size: 12px;
+    width: 100%;
+    height: 100%;
+}
+
+.version {
+    position: absolute;
+    top: 0;
+    right: 0;
+    font-size: 75%;
+    color: rgba(0,0,0,0.5);
+}
