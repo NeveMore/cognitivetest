@@ -254,6 +254,26 @@ function show_data(){
     
     $('#data').show();
     $('#data textarea').text( data ).select();
+
+    // Create a Blob object with your data and the appropriate MIME type.
+    var blob = new Blob([data], { type: 'text/plain;charset=utf-8' });
+    
+    // Create a URL for the Blob object.
+    var url = URL.createObjectURL(blob);
+    
+    // Create an anchor element and simulate a click to start the download.
+    var downloadLink = $('<a></a >')
+        .attr('href', url)
+        .attr('download', 'filename.txt') // Specify the file name here.
+        .appendTo('body');
+    
+    downloadLink[0].click();
+    
+    // Remove the temporary link and revoke the object URL to free up memory.
+    downloadLink.remove();
+    setTimeout(function() {
+        URL.revokeObjectURL(url);
+    }, 100);
 }
 
 function end(){
