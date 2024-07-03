@@ -253,7 +253,7 @@ function show_data(){
       data = data + value + "\n";
     });
 
-    rowsData = process_data(data);
+    var rowsData = process_data(data);
 
     // Convert the array to CSV string, handling commas in data
     var csvContent = rowsData.map((row) => 
