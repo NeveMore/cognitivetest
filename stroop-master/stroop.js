@@ -1,6 +1,6 @@
 var version = 'Version 0.3.3, 3/29/13'
 var experiment;
-var strings = ["red", "green", "blue", "yellow", "xxxxx"];
+var strings = ["红", "绿", "蓝", "黄", "xxxxx"];
 var colors = [
     {name: "red", value: "#f00"}, 
     {name: "green", value: "#0f0"},
