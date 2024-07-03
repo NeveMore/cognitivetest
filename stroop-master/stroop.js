@@ -253,10 +253,13 @@ function show_data(){
       data = data + value + "\n";
     });
 
-    process_data(data);
-    
-    var csvContent = data.map((row) => 
-      row.map((field) => `"${field.replace(/"/g, '""')}"`).join(",")
+    rowsData = process_data(data);
+
+    // Convert the array to CSV string, handling commas in data
+    var csvContent = rowsData.map((row) => 
+      row.map((field) => 
+        (typeof field === 'string' && field.includes(',')) ? `"${field}"` : field
+      ).join(",")
     ).join("\n");
     
     // Create a Blob object with the CSV content and the appropriate MIME type
@@ -278,7 +281,7 @@ function show_data(){
     setTimeout(function () {
       URL.revokeObjectURL(url);
     }, 100);
-
+    
     $('#data').show();
     $('#data textarea').text( data ).select();
 }
