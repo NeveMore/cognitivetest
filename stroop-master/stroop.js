@@ -168,7 +168,7 @@ function run_sets(){
                     .text( lastStimulus.text )
                     .css('color', lastStimulus.color.value )
                     .show();
-                $('#responses').on('click', handle_response);
+                $('#responses button').on('click', handle_response);
             },
             experiment.delay_before_stimulus * 1000.0
         ); 
@@ -189,7 +189,7 @@ function run_sets(){
     }
     
     function save_and_proceed(){       
-        $('#responses').off('click');
+        $('#responses button').off('click');
         experiment.results.push( iteration_data );
         show_stimulus();
     }
