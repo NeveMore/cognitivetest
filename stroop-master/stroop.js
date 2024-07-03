@@ -250,7 +250,7 @@ function show_data(){
 
     Object.keys(localStorage).forEach((key) => {
       var value = localStorage.getItem(key);
-      data = data + trial_data + "\n";
+      data = data + value + "\n";
     });
 
     process_data(data);
