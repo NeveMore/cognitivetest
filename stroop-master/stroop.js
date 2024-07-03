@@ -247,33 +247,96 @@ function save_data(){
 
 function show_data(){
     var data = '';
-    
-    $.each( localStorage, function( idx, trial_data ){
-        data = data + trial_data + "\n";
-    });
-    
-    $('#data').show();
-    $('#data textarea').text( data ).select();
 
-    // Create a Blob object with your data and the appropriate MIME type.
-    var blob = new Blob([data], { type: 'text/plain;charset=utf-8' });
+    Object.keys(localStorage).forEach((key) => {
+      var value = localStorage.getItem(key);
+      data = data + trial_data + "\n";
+    });
+
+    process_data(data);
     
-    // Create a URL for the Blob object.
+    var csvContent = data.map((row) => 
+      row.map((field) => `"${field.replace(/"/g, '""')}"`).join(",")
+    ).join("\n");
+    
+    // Create a Blob object with the CSV content and the appropriate MIME type
+    var blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+    
+    // Create a URL for the Blob object
     var url = URL.createObjectURL(blob);
     
-    // Create an anchor element and simulate a click to start the download.
-    var downloadLink = $('<a></a >')
-        .attr('href', url)
-        .attr('download', 'filename.txt') // Specify the file name here.
-        .appendTo('body');
+    // Create an anchor element and simulate a click to start the download
+    var downloadLink = $("<a></a>")
+      .attr("href", url)
+      .attr("download", "data.csv") // Specify the file name here
+      .appendTo("body");
     
     downloadLink[0].click();
     
-    // Remove the temporary link and revoke the object URL to free up memory.
+    // Remove the temporary link and revoke the object URL to free up memory
     downloadLink.remove();
-    setTimeout(function() {
-        URL.revokeObjectURL(url);
+    setTimeout(function () {
+      URL.revokeObjectURL(url);
     }, 100);
+
+    $('#data').show();
+    $('#data textarea').text( data ).select();
+}
+
+function process_data (rawdata){
+    rawdata = '[' + rawdata.replace(/}\s*{/g, '},\n{') + ']';
+    
+    console.log( rawdata);
+    rawdata = JSON.parse(rawdata);
+    
+    console.log(rawdata);
+    
+    var rows = [];
+    rows.push([
+        // experiment info
+        'subject_name',
+        'timestamp',
+        'version',
+        'delay_before_stimulus',
+        'feedback',
+        'feedback_duration',
+        'id',
+        'number_of_sets',
+        'number_of_sets_conducted',
+        
+        // stimulus
+        'stimulus_color',
+        'stimulus_text',
+        
+        // responses
+        'response',
+        'correct',
+        'time'
+    ]);
+    $.each(rawdata, function(i, subject){
+        $.each(subject.results, function( j, result ){
+            $.each(result.responses, function( seq, response ){
+                rows.push( [
+                    subject['subject_name'],
+                    subject['timestamp'],
+                    subject['version'],
+                    subject['delay_before_stimulus'],
+                    subject['feedback'],
+                    subject['feedback_duration'],
+                    subject['id'],
+                    subject['number_of_sets'],
+                    subject['number_of_sets_conducted'],
+                    result['color'],
+                    result['text'],
+                    response['color'],
+                    response['correct'],
+                    response['time']
+                ] );
+            });
+        });
+    });
+    
+    return rows;
 }
 
 function end(){
