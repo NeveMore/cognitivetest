@@ -217,11 +217,11 @@ App.TestView = Em.View.extend({
       that.$('.error').toggleClass('error btn-danger');
 
       if (controller.get('tapErrors') === 0) {
-        $('.message').html('您正确地回答了任务。');
+        $('.message').html('您的按键反应正确。');
       } else if (controller.get('errCount') === 0) {
-        $('.message').html('您对任务的回答不正确。请再尝试一次。');
+        $('.message').html('您的按键反应不正确。请再尝试一次。');
       } else {
-        $('.message').html('您对任务的回答不正确。测试结束。');
+        $('.message').html('您的按键反应不正确。测试结束。');
       }
 
       setTimeout(function() {
