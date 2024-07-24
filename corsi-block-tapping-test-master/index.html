@@ -35,8 +35,8 @@
   <script type="text/x-handlebars" data-template-name="pre">
     <div class="row row-intro row-start-test-intro">
       <div class="col-sm-10 col-sm-offset-1">
-        <h1>Muistitesti - taso {{level}}</h1>
-        <p><strong>Ohje:</strong> Seuraavassa testissä sinulle näytetään <strong>{{level}}</strong> {{multiply level 'neliö'}}.<br>Valitse neliöt tämän jälkeen samassa järjestyksessä<br>kuin ne on sinulle esitetty.</p>
+        <h1>记忆力测试 - {{level}} 级</h1>
+        <p><strong>提示:</strong> 在下面的测试中，您将看到 <strong>{{level}}</strong> 个方块被点亮.<br>然后按照显示的顺序点亮方块。</p>
       </div>
       <div class="col-sm-10 col-sm-offset-1 small-btns">
         <button id="small-btn-1" type="button" class="btn btn-lg btn-primary btn-flash">1</button>
@@ -52,7 +52,7 @@
     </div>
     <div class="row row-start-test">
       <div class="col-sm-6 col-sm-offset-3">
-        <button type="button" class="btn btn-lg btn-primary">Suorita testi</button>
+        <button type="button" class="btn btn-lg btn-primary">开始测试</button>
       </div>
     </div>
   </script>
@@ -80,13 +80,13 @@
   <script type="text/x-handlebars" data-template-name="result">
     <div class="row row-intro">
       <div class="col-sm-10 col-sm-offset-1">
-        <h1>Testi päättyi</h1>
-        <p>Kiitos osallistumisestasi testiin.<br>Suoritit onnistuneesti muistitestin tason <strong>{{level}}</strong>.</p>
+        <h1>测试结束</h1>
+        <p>感谢您参加测试。<br>您已成功记忆力测试 <strong>{{level}}</strong> 级.</p>
       </div>
     </div>
     <div class="row row-start-test">
       <div class="col-sm-6 col-sm-offset-3">
-        <button type="button" class="btn btn-lg btn-primary">Lopeta testi</button>
+        <button type="button" class="btn btn-lg btn-primary">结束测试</button>
       </div>
     </div>
   </script>
