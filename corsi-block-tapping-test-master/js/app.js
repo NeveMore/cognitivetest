@@ -219,7 +219,7 @@ App.TestView = Em.View.extend({
       if (controller.get('tapErrors') === 0) {
         $('.message').html('您正确地回答了任务。');
       } else if (controller.get('errCount') === 0) {
-        $('.message').html('您对任务的回答不正确。请再尝试一次c');
+        $('.message').html('您对任务的回答不正确。请再尝试一次。');
       } else {
         $('.message').html('您对任务的回答不正确。测试结束。');
       }
