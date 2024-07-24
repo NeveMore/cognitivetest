@@ -147,7 +147,7 @@ App.TestView = Em.View.extend({
       iteration = 1,
       that = this;
 
-    $('.message').html('<strong>Odota</strong> ja <strong>seuraa</strong> mitkä neliöt välähtävät.');
+    $('.message').html('等待并观察哪些方块被点亮。');
 
     var flashInterval = setInterval(function() {
       var $btn = that.$('#btn-' + iteration);
@@ -162,7 +162,7 @@ App.TestView = Em.View.extend({
         setTimeout(function() {
           that.$('.test-btns').toggleClass('animation play');
           that.$('.screen').addClass('hidden');
-          $('.message').html('<strong>Kosketa</strong> välähtäneitä neliöitä samassa järjestyksessä.');
+          $('.message').html('按相同的顺序点亮刚才依次亮起的方块。');
         }, 2000);
       }
 
@@ -217,11 +217,11 @@ App.TestView = Em.View.extend({
       that.$('.error').toggleClass('error btn-danger');
 
       if (controller.get('tapErrors') === 0) {
-        $('.message').html('Vastasit tehtävään <strong>oikein</strong>.');
+        $('.message').html('您正确地回答了任务。');
       } else if (controller.get('errCount') === 0) {
-        $('.message').html('Vastasit tehtävään <strong>väärin</strong>. Yritä uudelleen.');
+        $('.message').html('您对任务的回答不正确。请再尝试一次c');
       } else {
-        $('.message').html('Vastasit tehtävään <strong>väärin</strong>. Testi päättyy.');
+        $('.message').html('您对任务的回答不正确。测试结束。');
       }
 
       setTimeout(function() {
