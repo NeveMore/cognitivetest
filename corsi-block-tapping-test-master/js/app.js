@@ -93,10 +93,54 @@ App.ResultView = Em.View.extend({
     this.set('controller.level', this.get('controller.level') - 1);
   },
   touchEnd: function(evt) {
-    if(evt.target.nodeName === 'BUTTON') this.get('controller').transitionToRoute('intro');
+    if(evt.target.nodeName === 'BUTTON')  {
+      // Get the level from the controller
+      var level = this.get('controller.level');
+
+      // Create the content string with the level
+      var content = '您的测试结果是: ' + level + ' 级';
+
+      // Create a blob with the content of the text file
+      var textBlob = new Blob([content], { type: 'text/plain' });
+
+      // Create a link element
+      var downloadLink = document.createElement('a');
+      downloadLink.href = URL.createObjectURL(textBlob);
+      downloadLink.download = 'corsi-result.txt';
+
+      // Hide the link and trigger the download
+      downloadLink.style.display = 'none';
+      document.body.appendChild(downloadLink);
+      downloadLink.click();
+
+      // Remove the link after triggering the download
+      document.body.removeChild(downloadLink);
+    }
   },
   click: function(evt) {
-    if(evt.target.nodeName === 'BUTTON') this.get('controller').transitionToRoute('intro');
+    if(evt.target.nodeName === 'BUTTON') {
+      // Get the level from the controller
+      var level = this.get('controller.level');
+
+      // Create the content string with the level
+      var content = '您的测试结果是: ' + level + ' 级';
+
+      // Create a blob with the content of the text file
+      var textBlob = new Blob([content], { type: 'text/plain' });
+
+      // Create a link element
+      var downloadLink = document.createElement('a');
+      downloadLink.href = URL.createObjectURL(textBlob);
+      downloadLink.download = 'corsi-result.txt';
+
+      // Hide the link and trigger the download
+      downloadLink.style.display = 'none';
+      document.body.appendChild(downloadLink);
+      downloadLink.click();
+
+      // Remove the link after triggering the download
+      document.body.removeChild(downloadLink);
+    }
   }
 });
 
