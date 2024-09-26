@@ -2,10 +2,10 @@ var version = 'Version 0.3.3, 3/29/13'
 var experiment;
 var strings = ["红色", "绿色", "蓝色", "黄色", "xxxxx"];
 var colors = [
-    {name: "red", value: "#f00"}, 
-    {name: "green", value: "#0f0"},
-    {name: "blue", value: "#00f"}, 
-    {name: "yellow", value: "#ff0"}
+    {name: "红色", value: "#f00"}, 
+    {name: "绿色", value: "#0f0"},
+    {name: "蓝色", value: "#00f"}, 
+    {name: "黄色", value: "#ff0"}
 ];
 var stimuli = [];
 var clicks = 0;
